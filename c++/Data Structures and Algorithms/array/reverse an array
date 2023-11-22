@@ -1,0 +1,32 @@
+#include <iostream>
+using namespace std;
+
+void swap(int* p, int* q)
+{
+    int ret;
+    ret = *p;
+    *p = *q;
+    *q = ret;
+    p++;
+    q--;
+    if(q > p){
+        swap(p, q);
+    }
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    int* a = new int [n];
+    for(int i=0; i<n; i++){
+        a[i] = i;
+    }
+    swap(&a[0], &a[n-1]);
+    for(int i=0; i<n; i++){
+        cout << a[i] << ' ';
+    }
+
+    delete[] a;
+    return 0;
+}
