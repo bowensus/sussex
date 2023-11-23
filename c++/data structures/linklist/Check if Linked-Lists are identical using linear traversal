@@ -1,0 +1,71 @@
+#include <iostream>
+using namespace std;
+
+struct Node{
+    int item;
+    Node* next;
+};
+
+struct LinkList {
+    Node* head = nullptr;
+
+    void add(Node **p, int item);
+    bool compare(const LinkList& l1, const LinkList& l2);
+    void del(Node *p);
+};
+
+void LinkList :: add(Node** p, int item)
+{
+    Node *node = new Node();
+    node->item = item;
+    node->next = *p;
+    *p = node;
+}
+
+bool LinkList :: compare(const LinkList& l1, const LinkList& l2)
+{
+    Node* p = l1.head;
+    Node* q = l2.head;
+    while(p->next != nullptr && q->next != nullptr){
+        if (p->item != q->item){
+            return false;
+        }
+        p = p->next;
+        q = q->next;
+    }
+    return p->next == nullptr && q->next == nullptr;
+}
+
+void LinkList :: del(Node* p)
+{
+    while(p != nullptr){
+        Node* current = p;
+        p = current->next;
+        delete current;
+    }
+}
+
+int main()
+{
+    LinkList l1;
+    l1.add(&l1.head, 4);
+    l1.add(&l1.head, 3);
+    l1.add(&l1.head, 2);
+    l1.add(&l1.head, 1);
+
+    LinkList l2;
+    l2.add(&l2.head, 4);
+    l2.add(&l2.head, 3);
+    l2.add(&l2.head, 2);
+    l2.add(&l2.head, 1);
+
+    if (l1.compare(l1, l2)){
+        cout << "Identical" << endl;
+    }else{
+        cout << "Not Identical" << endl;
+    }
+
+    l1.del(l1.head);
+    l2.del(l2.head);
+    return 0;
+}
