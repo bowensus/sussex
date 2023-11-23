@@ -1,0 +1,70 @@
+#include <iostream>
+using namespace std;
+
+struct Node{
+    int item;
+    Node* next;
+};
+
+struct LinkList{
+    Node* head = nullptr;
+    Node* tail = nullptr;
+
+    void append(Node** p, int item);
+    void del(Node* p);
+    int findMid(Node* start);
+};
+
+void LinkList :: append(Node** p, int item)
+{
+    Node* node = new Node();
+    node->item = item;
+    node->next = nullptr;
+    if (*p == nullptr){
+        head = tail = node;
+    }else{
+        (*p)->next = node;
+        (*p) = node;
+    }
+}
+
+int LinkList ::findMid(Node* start)
+{
+    Node* slow = start;
+    Node* fast = start;
+    while(fast->next!= nullptr && fast->next->next!= nullptr){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    if (fast->next == nullptr){
+        return slow->item;
+    } else if (fast->next->next == nullptr){
+        return slow->next->item;
+    }
+}
+
+void LinkList :: del(Node* p)
+{
+    while(p != nullptr){
+        Node* current = p;
+        p = current->next;
+        delete current;
+    }
+}
+
+int main()
+{
+    LinkList l1;
+    l1.append(&l1.tail, 1);
+    l1.append(&l1.tail, 2);
+    l1.append(&l1.tail, 3);
+    l1.append(&l1.tail, 4);
+    l1.append(&l1.tail, 5);
+
+    int middle = l1.findMid(l1.head);
+    cout << middle << endl;
+
+    l1.del(l1.head);
+
+    return 0;
+}
