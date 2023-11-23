@@ -1,0 +1,125 @@
+#include <iostream>
+using namespace std;
+
+struct Node{
+    int item;
+    Node* next;
+};
+
+struct LinkList{
+    Node* head = nullptr;
+    Node* tail = nullptr;
+
+    void append(Node** p, int item);
+    void reverse(Node** p, Node** q);
+    void print(Node* p);
+    LinkList addition(Node* p, Node* q);
+    void del(Node* p);
+};
+
+void LinkList :: append(Node** p, int item)
+{
+    Node* node = new Node();
+    node->item = item;
+    node->next = nullptr;
+    if(*p == nullptr){
+        head = tail = node;
+    }else{
+        (*p)->next = node;
+        *p = node;
+    }
+}
+
+void LinkList ::reverse(Node **p, Node **q)
+{
+    Node* last = nullptr;
+    Node* next = nullptr;
+    Node* start = *p;
+    while(*p != nullptr){
+        next = (*p)->next;
+        (*p)->next = last;
+        last = *p;
+        *p = next;
+    }
+    *p = last;
+    *q = start;
+}
+
+void LinkList :: print(Node* p)
+{
+    while(p != nullptr){
+        cout << p->item;
+        p = p->next;
+    }
+}
+
+LinkList LinkList ::addition(Node *p, Node *q)
+{
+    LinkList linklist;
+    bool carry = false;
+    int item;
+    while(p != nullptr || q != nullptr){
+        if(p != nullptr && q != nullptr) item = p->item + q->item;
+        else if(p == nullptr) item = q->item;
+        else if(q == nullptr) item = p->item;
+        if(carry){
+            item += 1;
+            carry = false;
+        }
+        if(item >= 10){
+            carry = true;
+            item -= 10;
+        }
+        if(p != nullptr && q != nullptr){
+            p = p->next;
+            q = q->next;
+        }else if(p == nullptr) q = q->next;
+        else if(q == nullptr) p = p->next;
+        linklist.append(&linklist.tail, item);
+    }
+    if(carry) linklist.append(&linklist.tail, 1);
+    return linklist;
+}
+
+void LinkList :: del(Node* p)
+{
+    while(p != nullptr){
+        Node* current = p;
+        p = current->next;
+        delete current;
+    }
+}
+
+int main()
+{
+    LinkList l1, l2;
+    l1.append(&l1.tail, 7);
+    l1.append(&l1.tail, 5);
+    l1.append(&l1.tail, 9);
+    l1.append(&l1.tail, 4);
+    l1.append(&l1.tail, 6);
+
+    l2.append(&l2.tail, 8);
+    l2.append(&l2.tail, 4);
+
+    l1.reverse(&l1.head, &l1.tail);
+    l2.reverse(&l2.head, &l2.tail);
+
+    LinkList linklist;
+    linklist = linklist.addition(l1.head, l2.head);
+    linklist.reverse(&linklist.head, &linklist.tail);
+    l1.reverse(&l1.head, &l1.tail);
+    l2.reverse(&l2.head, &l2.tail);
+
+    l1.print(l1.head);
+    cout << " + ";
+    l2.print(l2.head);
+    cout << " = ";
+    linklist.print(linklist.head);
+
+    l1.del(l1.head);
+    l2.del(l2.head);
+    linklist.del(linklist.head);
+
+    return 0;
+}
