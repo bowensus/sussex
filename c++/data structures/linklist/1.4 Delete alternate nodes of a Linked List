@@ -1,0 +1,75 @@
+#include <iostream>
+using namespace std;
+
+struct Node{
+    int item;
+    Node* next;
+};
+
+struct LinkList{
+    Node* head = nullptr;
+    Node* tail = nullptr;
+
+    void append(Node** p, int item);
+    void remove(Node* p);
+    void print(Node* p);
+    void del(Node* p);
+};
+
+void LinkList :: append(Node** p, int item)
+{
+    Node* node = new Node();
+    node->item = item;
+    node->next = nullptr;
+    if(*p == nullptr){
+        head = tail = node;
+    }else{
+        (*p)->next = node;
+        *p = node;
+    }
+}
+
+void LinkList :: remove(Node* p)
+{
+    while(p != nullptr && p->next != nullptr && p->next->next != nullptr){
+        Node* q = p->next;
+        p->next = q->next;
+        delete q;
+        p = p->next;
+    }
+    if(p->next->next == nullptr){
+        delete p->next;
+        p->next = nullptr;
+    }
+}
+
+void LinkList :: print(Node* p)
+{
+    while(p != nullptr){
+        cout << p->item << ' ';
+        p = p->next;
+    }
+}
+
+void LinkList :: del(Node* p)
+{
+    while(p != nullptr){
+        Node* current = p;
+        p = current->next;
+        delete current;
+    }
+}
+
+int main()
+{
+    LinkList l1;
+    l1.append(&l1.tail, 1);
+    l1.append(&l1.tail, 2);
+    l1.append(&l1.tail, 3);
+    l1.append(&l1.tail, 4);
+
+    l1.remove(l1.head);
+    l1.print(l1.head);
+    l1.del(l1.head);
+    return 0;
+}
