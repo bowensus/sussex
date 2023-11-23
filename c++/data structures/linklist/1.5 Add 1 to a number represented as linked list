@@ -50,7 +50,7 @@ void LinkList ::reverse(Node** p)
 
 void LinkList ::addition(Node *p, int value)
 {
-    p->item += 1;
+    p->item += value;
     while(p != nullptr){
         if(p->item >= 10){
             p->item -= 10;
