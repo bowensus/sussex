@@ -1,0 +1,104 @@
+#include <iostream>
+using namespace std;
+
+struct Node{
+    int item;
+    Node* next;
+};
+
+struct LinkList{
+    Node* head = nullptr;
+    Node* tail = nullptr;
+
+    void append(Node** p, int item);
+    void reverse(Node** p, Node** q);
+    void minus(Node *p, Node* q);
+    void print(Node* p);
+    void del(Node* p);
+};
+
+void LinkList ::append(Node **p, int item)
+{
+    Node* node = new Node();
+    node->item = item;
+    node->next = nullptr;
+    if(*p == nullptr) head = tail = node;
+    else{
+        (*p)->next = node;
+        *p = node;
+    }
+}
+
+void LinkList :: reverse(Node** p, Node** q)
+{
+    Node* last = nullptr;
+    Node* next = nullptr;
+    Node* start = *p;
+    while(*p != nullptr){
+        next = (*p)->next;
+        (*p)->next = last;
+        last = *p;
+        *p = next;
+    }
+    *p = last;
+    *q = start;
+}
+
+void LinkList ::minus(Node *p, Node *q)
+{
+    bool carry = false;
+    while(p != nullptr){
+        if(carry){
+            if(p->item != 0){
+                p->item -= 1;
+                carry = false;
+            }else{
+                p->item = 9;
+            }
+        }
+        if(q != nullptr){
+            if(p->item < q->item){
+                carry = true;
+                p->item += 10;
+            }
+            p->item -= q->item;
+            q = q->next;
+        }
+        p = p->next;
+    }
+}
+
+void LinkList :: print(Node* p)
+{
+    while(p != nullptr){
+        cout << p->item;
+        p = p->next;
+    }
+}
+
+void LinkList :: del(Node* p)
+{
+    while(p != nullptr){
+        Node* current = p;
+        p = p->next;
+        delete current;
+    }
+}
+
+int main()
+{
+    LinkList l1, l2;
+    l1.append(&l1.tail, 1);
+    l1.append(&l1.tail, 0);
+    l1.append(&l1.tail, 0);
+    l2.append(&l2.tail, 1);
+
+    l1.reverse(&l1.head, &l1.tail);
+    l1.minus(l1.head, l2.head);
+    l1.reverse(&l1.head, &l1.tail);
+
+    l1.print(l1.head);
+    l1.del(l1.head);
+    l2.del(l2.head);
+    return 0;
+}
