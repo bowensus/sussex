@@ -178,8 +178,6 @@ class Room:
         if self.floor == 14:
             self.explore = True
 
-
-
     def open_door(self):
         next_pos = self.player.pos + self.player.direction
         i = int(next_pos.x - 5)
