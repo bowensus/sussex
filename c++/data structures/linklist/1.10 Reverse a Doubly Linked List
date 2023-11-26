@@ -1,0 +1,107 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int item;
+    Node* prev;
+    Node* next;
+};
+
+struct LinkList
+{
+    Node* head = nullptr;
+    Node* tail = nullptr;
+
+    void append(Node** p, int item);
+    void printHead(Node* p);
+    void printTail(Node* p);
+    void reverse(Node** p, Node** q);
+    void del(Node* p);
+};
+
+void LinkList ::append(Node **p, int item)
+{
+    Node* node = new Node();
+    node->item = item;
+    node->prev = nullptr;
+    node->next = nullptr;
+    if(*p == nullptr){
+        head = tail = node;
+    }else{
+        node->prev = *p;
+        (*p)->next = node;
+        *p = node;
+    }
+}
+
+void LinkList ::reverse(Node **p, Node** q)
+{
+    Node* p_last = nullptr;
+    Node* p_next = nullptr;
+    Node* q_last = nullptr;
+    Node* q_next = nullptr;
+    while(*p != nullptr){
+        p_next = (*p)->next;
+        (*p)->next = p_last;
+        p_last = *p;
+        *p = p_next;
+        q_next = (*q)->prev;
+        (*q)->prev = q_last;
+        q_last = *q;
+        *q = q_next;
+    }
+    *p = p_last;
+    *q = q_last;
+}
+
+void LinkList :: printHead(Node* p)
+{
+    cout << "Start Head: ";
+    while(p->next != nullptr){
+        cout << p->item << "->";
+        p = p->next;
+    }
+    cout << p->item;
+}
+
+void LinkList :: printTail(Node* p)
+{
+    cout << "Start Tail: ";
+    while(p->prev != nullptr){
+        cout << p->item << "->";
+        p = p->prev;
+    }
+    cout << p->item;
+}
+
+void LinkList :: del(Node* p)
+{
+    while(p != nullptr){
+        Node* current = p;
+        p = current->next;
+        delete current;
+    }
+    head = tail = nullptr;
+}
+
+int main()
+{
+    LinkList l1;
+    for(int i=1; i<=4; i++){
+        l1.append(&l1.tail, i);
+    }
+    l1.printHead(l1.head);
+    cout << endl;
+    l1.printTail(l1.tail);
+    cout << '\n' << "Reversed:" << '\n';
+
+    l1.reverse(&l1.head, &l1.tail);
+    l1.printHead(l1.head);
+    cout << endl;
+    l1.printTail(l1.tail);
+
+    l1.del(l1.head);
+
+    return 0;
+}
