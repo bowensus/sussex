@@ -1,0 +1,67 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int item;
+    Node* next;
+};
+
+struct LinkList
+{
+    Node* head = nullptr;
+
+    void add(Node** p, int item);
+    void swap(Node* p);
+    void print(Node* p);
+    void del(Node* p);
+};
+
+void LinkList :: add(Node** p, int item)
+{
+    Node* node = new Node();
+    node->item = item;
+    node->next = *p;
+    *p = node;
+}
+
+void LinkList :: swap(Node* p)
+{
+    int ret;
+    while(p != nullptr && p->next != nullptr && p->next->next != nullptr){
+        ret = p->item;
+        p->item = p->next->item;
+        p->next->item = ret;
+        p = p->next->next;
+    }
+}
+
+void LinkList :: print(Node* p)
+{
+    while(p != nullptr){
+        cout << p->item << ' ';
+        p = p->next;
+    }
+}
+
+void LinkList :: del(Node* p)
+{
+    while(p != nullptr){
+        Node* current = p;
+        p = current->next;
+        delete current;
+    }
+}
+
+int main()
+{
+    LinkList l1;
+    for(int i=6; i>0; i--){
+        l1.add(&l1.head, i);
+    }
+    l1.swap(l1.head);
+    l1.print(l1.head);
+    l1.del(l1.head);
+
+    return 0;
+}
