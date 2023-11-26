@@ -1,0 +1,70 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int item;
+    Node* next;
+};
+
+struct Linklist
+{
+    Node* last = nullptr;
+
+    void add(Node** p, int item);
+    void print(Node* p);
+    void del(Node* p);
+};
+
+void Linklist :: add(Node** p, int item)
+{
+    Node* node = new Node();
+    node->item = item;
+    if(*p == nullptr){
+        node->next = node;
+        *p = node;
+    }else{
+        node->next = (*p)->next;
+        (*p)->next = node;
+    }
+}
+
+void Linklist :: print(Node* p)
+{
+    int cnt (0);
+    Node* node = p;
+    while(p->next != node){
+        cout << p->item << ' ';
+        p = p->next;
+        cnt += 1;
+    }
+    cout << p->item << endl;
+    cout << cnt + 1;
+}
+
+void Linklist :: del(Node *p)
+{
+    Node* node = p;
+    while(p->next != node){
+        Node* current = p;
+        p = current->next;
+        delete current;
+    }
+    delete p;
+    last = nullptr;
+}
+
+int main()
+{
+    Linklist l1;
+    l1.add(&l1.last, 1);
+    l1.add(&l1.last, 2);
+    l1.add(&l1.last, 3);
+    l1.add(&l1.last, 4);
+    l1.add(&l1.last, 5);
+
+    l1.print(l1.last);
+    l1.del(l1.last);
+
+    return 0;
+}
