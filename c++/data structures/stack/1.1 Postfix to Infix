@@ -1,0 +1,27 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int main()
+{
+    string str = "ab*c+";
+    string s;
+    stack<string> stack1;
+    int n = str.size();
+    for(int i=0; i<n; i++){
+        if(str[i] >= 'a' && str[i] <= 'z'){
+            s = string(1, str[i]);
+            stack1.push(s);
+        }else{
+            string a = stack1.top();
+            stack1.pop();
+            string b = stack1.top();
+            stack1.pop();
+            stack1.push('(' + b + str[i] + a + ')');
+        }
+    }
+
+    cout << stack1.top();
+
+    return 0;
+}
