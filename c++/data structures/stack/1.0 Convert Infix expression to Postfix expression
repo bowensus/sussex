@@ -1,0 +1,58 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int pr(char c)
+{
+    int precedence;
+    if(c == '^'){
+        precedence = 3;
+    }else if(c == '*' || c == '/'){
+        precedence = 2;
+    }else if(c == '+' || c == '-'){
+        precedence = 1;
+    }else{
+        precedence = 0;
+    }
+    return precedence;
+}
+
+int main()
+{
+    string str = "a+b*(c^d-e)^(f+g*h)-i";
+    int n = str.size();
+    char a[n];
+    stack<char> stack;
+
+    int j = 0;
+    for(int i=0; i<n; i++){
+        if(str[i] >= 'a' && str[i] <= 'z'){
+            a[j++] = str[i];
+        }else{
+            if(stack.empty() || str[i] == '('){
+                stack.push(str[i]);
+            }else if(str[i] == ')'){
+                while(stack.top() != '('){
+                    a[j++] = stack.top();
+                    stack.pop();
+                }
+                stack.pop();
+            }else{
+                while(!stack.empty() && pr(str[i]) <= pr(stack.top())){
+                    a[j++] = stack.top();
+                    stack.pop();
+                }
+                stack.push(str[i]);
+            }
+        }
+    }
+    while(!stack.empty()) {
+        a[j++] = stack.top();
+        stack.pop();
+    }
+
+    for(int i=0; i<j; i++){
+        cout << a[i];
+    }
+    return 0;
+}
