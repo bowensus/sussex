@@ -1,0 +1,45 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+bool check_balance(string str)
+{
+    int n = str.size();
+
+    stack<char> stack;
+    for(int i=0; i<n; i++){
+        if(str[i] == '(' || str[i] == '[' || str[i] == '{'){
+            stack.push(str[i]);
+        }else{
+            if(stack.empty()){
+                stack.push(str[i]);
+                break;
+            }else if(str[i] == ')' && stack.top() == '(') stack.pop();
+            else if(str[i] == ']' && stack.top() == '[') stack.pop();
+            else if(str[i] == '}' && stack.top() == '{') stack.pop();
+            else{
+                stack.push(str[i]);
+                break;
+            }
+        }
+    }
+    if(stack.empty()) return true;
+    else return false;
+}
+
+void print(bool result)
+{
+    if(result) cout << "Balanced" << endl;
+    else cout << "Not Balanced" << endl;
+}
+
+int main()
+{
+    string str1 = "[()]{}{[()()]()}";
+    string str2 = "[{()}])";
+
+    print(check_balance(str1));
+    print(check_balance(str2));
+
+    return 0;
+}
