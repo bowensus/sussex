@@ -1,0 +1,36 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+void merge(queue<int>& group, int single)
+{
+    group.push(single);
+}
+
+void reverse(queue<int>& q)
+{
+    if(q.size() <= 1) return;
+
+    queue<int> group;
+    int single = q.front();
+    q.pop();
+    while(!q.empty()){
+        group.push(q.front());
+        q.pop();
+    }
+    reverse(group);
+    merge(group, single);
+    q = group;
+}
+
+int main()
+{
+    queue<int> queue ({9, 7, 2, 5, 1});
+    reverse(queue);
+    while(!queue.empty()){
+        cout << queue.front() << ' ';
+        queue.pop();
+    }
+
+    return 0;
+}
