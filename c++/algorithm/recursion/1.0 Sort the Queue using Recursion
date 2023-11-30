@@ -1,0 +1,68 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+queue<int> merge(queue<int>& left, queue<int>& right)
+{
+    queue<int> ret;
+    while(!left.empty() && !right.empty()) {
+        if(left.front() <= right.front()){
+            ret.push(left.front());
+            left.pop();
+        }else if(right.front() < left.front()) {
+            ret.push(right.front());
+            right.pop();
+        }
+    }
+    while(!left.empty()){
+        ret.push(left.front());
+        left.pop();
+    }
+    while(!right.empty()){
+        ret.push(right.front());
+        right.pop();
+    }
+    return ret;
+}
+
+void mergeSort(queue<int>& q)
+{
+    int n = q.size();
+    if(n <= 1) return;
+
+    int mid = n/2;
+    queue<int> left, right;
+    while(left.size() < mid){
+        left.push(q.front());
+        q.pop();
+    }
+    while(!q.empty()){
+        right.push(q.front());
+        q.pop();
+    }
+
+    mergeSort(left);
+    mergeSort(right);
+    q = merge(left, right);
+}
+
+int main()
+{
+    queue<int> queue;
+
+    queue.push(10);
+    queue.push(7);
+    queue.push(16);
+    queue.push(9);
+    queue.push(20);
+    queue.push(5);
+
+    mergeSort(queue);
+
+    while(!queue.empty()){
+        cout << queue.front() << ' ';
+        queue.pop();
+    }
+
+    return 0;
+}
