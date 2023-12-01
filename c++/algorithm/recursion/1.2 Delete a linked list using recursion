@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int item;
+    Node* next;
+};
+
+struct LinkList
+{
+    Node* head = nullptr;
+
+    void add(Node** p, int item);
+    void del(Node* p);
+};
+
+void LinkList :: add(Node** p, int item)
+{
+    Node* node = new Node();
+    node->item = item;
+    node->next = *p;
+    *p = node;
+}
+
+void LinkList :: del(Node* p)
+{
+    if(head == nullptr) return;
+    del(p->next);
+    delete p;
+}
+
+int main()
+{
+    LinkList l1;
+    l1.add(&l1.head, 1);
+    l1.add(&l1.head, 2);
+    l1.add(&l1.head, 3);
+
+    l1.del(l1.head);
+
+    return 0;
+}
