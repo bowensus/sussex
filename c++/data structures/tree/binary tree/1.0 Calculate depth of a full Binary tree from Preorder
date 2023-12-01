@@ -1,0 +1,24 @@
+#include <iostream>
+using namespace std;
+
+int findDepth(const char* s, int& index)
+{
+    int n = sizeof(s);
+    if(index == n || s[index] == 'l') return 0; // leaf no depth
+
+    index += 1;
+    int left = findDepth(s, index);
+    index += 1;
+    int right = findDepth(s, index);
+
+    return max(left, right) + 1; // root must have one depth
+}
+
+int main()
+{
+    char s[] = "nlnnlll";
+    int index = 0;
+    cout << findDepth(s, index) << endl;
+
+    return 0;
+}
