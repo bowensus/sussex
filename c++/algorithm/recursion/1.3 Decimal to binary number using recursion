@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+
+int binary(int item)
+{
+    if(item == 0) return 0;
+    else{
+        // * 10: place each binary digit in its correct position.
+        return item % 2 + 10 * binary(item/2);
+    }
+}
+
+int main()
+{
+    cout << binary(13);
+
+    return 0;
+}
