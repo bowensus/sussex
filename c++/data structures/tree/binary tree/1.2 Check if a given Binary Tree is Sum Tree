@@ -1,0 +1,56 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+struct Node
+{
+    int item;
+    Node* left;
+    Node* right;
+
+    Node(int key){
+        item = key;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+int sum(Node* p)
+{
+    if(p == nullptr) return 0;
+    return sum(p->left) + p->item + sum(p->right);
+}
+
+bool isSumTree(Node* p)
+{
+    if(!p || (!p->left && !p->right)) return true;
+
+    int leftSum = sum(p->left);
+    int rightSum = sum(p->right);
+
+    if(isSumTree(p->left) && isSumTree(p->right) && p->item == leftSum + rightSum)
+        return true;
+    return false;
+}
+
+int main()
+{
+    Node* root;
+    root = new Node(26);
+    root->left = new Node(10);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->left->right = new Node(6);
+    root->right->right = new Node(3);
+
+    if(isSumTree(root)) cout << "is SumTree";
+    else cout << "not SumTree";
+
+    return 0;
+}
+
+//         26
+//        /  \
+//       10   3
+//      /  \   \
+//     4    6   3
