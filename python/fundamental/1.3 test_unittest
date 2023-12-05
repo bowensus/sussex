@@ -1,3 +1,5 @@
+import unittest
+
 class TextBook:
 
     def __init__(self):
@@ -12,7 +14,8 @@ class TextBook:
         if name not in self.contact_dict.keys():
             self.contact_dict.update({name: (email, position, extension)})
             return True
-        else: return False
+        else:
+            return False
 
     def list_contact(self):
         for name in self.contact_dict.keys():
@@ -42,12 +45,28 @@ class TextBook:
         for name in self.contact_dict.keys():
             print(name)
 
-def main():
-    text_book = TextBook()
-    text_book.setup_contact()
+class TestTextBook(unittest.TestCase):
 
-    text_book.add_new_contact('william', 'will@acme.com', 'junior', 1234)
-    text_book.list_contact()
+    def setUp(self):
+        self.item1 = TextBook()
+        self.item1.setup_contact()
+
+    def tearDown(self):
+        del self.item1
+
+    def test(self):
+        self.assertTrue(self.item1.add_new_contact("william", "will@acme.com", "junior", 1234))
+        self.assertEqual(self.item1.get_number(), 4)
+
+        self.assertFalse(self.item1.add_new_contact("william", "will@acme.com", "junior", 1234))
+        self.assertEqual(self.item1.get_number(), 4)
+
+
+def main():
+    test_01 = TestTextBook()
+    test_01.setUp()
+    test_01.test()
+    test_01.tearDown()
 
 if __name__ == "__main__":
     main()
