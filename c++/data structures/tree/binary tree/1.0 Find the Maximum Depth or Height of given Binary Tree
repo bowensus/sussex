@@ -1,0 +1,38 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int item;
+    Node* left;
+    Node* right;
+    Node(int key){
+        item = key;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+int findDepth(Node* p)
+{
+    if(p == nullptr){
+        return 0;
+    }
+    int depthL = findDepth(p->left);
+    int depthR = findDepth(p->right);
+
+    return max(depthL, depthR) + 1;
+}
+
+int main()
+{
+    Node* root =  new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
+
+    cout << findDepth(root);
+
+    return 0;
+}
