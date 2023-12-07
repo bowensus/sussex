@@ -1,0 +1,125 @@
+#include <iostream>
+#include <string>
+#include <queue>
+#include <stack>
+using namespace std;
+
+struct Node
+{
+    char item;
+    Node* left;
+    Node* right;
+    int time;
+    Node(char key){
+        item = key;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+struct binTree
+{
+    Node* root = nullptr;
+    int searchParent(int inL, int inR, string In, queue<char>& q);
+    Node* buildTree(int inL, int inR, string In, queue<char>& q);
+    void printLevel(Node* p);
+    void printPost(Node* p);
+    void delTree(Node* p);
+};
+
+int binTree :: searchParent(int inL, int inR, string In, queue<char>& q)
+{
+    for(int i=inL; i<=inR; i++){
+        if(In[i] == q.front()){
+            q.pop();
+            return i;
+        }
+    }
+    return -1;
+}
+
+Node* binTree :: buildTree(int inL, int inR, string In, queue<char>& q)
+{
+    if(inL > inR) return nullptr;
+
+    int index = searchParent(inL, inR, In, q);
+    Node* node = new Node(In[index]);
+
+    node->left = buildTree(inL, index-1, In, q);
+    node->right = buildTree(index+1, inR, In, q);
+
+    return node;
+}
+
+void binTree :: printLevel(Node *p)
+{
+    if(p == nullptr) return;
+    queue<Node*> q;
+    q.push(p);
+    while(!q.empty()){
+        p = q.front();
+        cout << p->item << ' ';
+        q.pop();
+        if(p->left) q.push(p->left);
+        if(p->right) q.push(p->right);
+    }
+    cout << '\n';
+}
+
+void binTree :: printPost(Node *p)
+{
+    // preorder: first time meet to print
+    // inorder: second time meet to print
+    // postorder: third time meet to print (two times push)
+    if(p == nullptr) return;
+    stack<Node*> s;
+    while(p || !s.empty()){
+        while(p){
+            s.push(p);
+            p->time = 1;
+            p = p->left;
+        }
+        p = s.top();
+        s.pop(); // must pop to back, but node will be lost after turning right
+        if(p->time == 1){
+            s.push(p); // save parent (prevent to be lost)
+            p->time = 2;  // second push
+            p = p->right;
+        }else{
+            cout << p->item << ' ';
+            p = nullptr;
+        }
+    }
+    cout << '\n';
+}
+
+void binTree :: delTree(Node *p)
+{
+    // recursion delete
+    if(p == nullptr) return;
+    delTree(p->left);
+    delTree(p->right);
+    delete p;
+}
+
+int main()
+{
+    string InOrder = "DBEAFC";
+    string PreOrder = "ABDECF";
+
+    queue<char> queue;
+    for(char ch : PreOrder){
+        queue.push(ch);
+    }
+
+    binTree tree;
+    tree.root = tree.buildTree(0, 5, InOrder, queue);
+
+    cout << "LevelOrder: ";
+    tree.printLevel(tree.root);
+    cout << "PostOrder: ";
+    tree.printPost(tree.root);
+    tree.delTree(tree.root);
+
+    return 0;
+}
