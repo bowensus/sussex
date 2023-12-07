@@ -82,7 +82,7 @@ void binTree :: printPre(Node *p)
     }
 }
 
-void binTree ::delTree(Node *p)
+void binTree :: delTree(Node *p)
 {
     // InOrder (differece from PreOrder: in stack firstly)
     stack<Node*> s;
