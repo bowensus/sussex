@@ -1,0 +1,71 @@
+#include <iostream>
+#include <stack>
+#include <queue>
+using namespace std;
+
+struct Node
+{
+    int item;
+    Node* left;
+    Node* right;
+    Node(int key){
+        item = key;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+void mirrorTree(Node** p)
+{
+    queue<Node*> q;
+    if(*p == nullptr) return;
+
+    Node* start = *p;
+    q.push(*p);
+    while(!q.empty()){
+        *p = q.front();
+        q.pop();
+        Node* ret = (*p)->left;
+        (*p)->left = (*p)->right;
+        (*p)->right = ret;
+        if((*p)->left) q.push((*p)->left);
+        if((*p)->right) q.push((*p)->right);
+    }
+    *p = start;
+}
+
+void printIn(Node* p)
+{
+    stack<Node*> s;
+    while(p != nullptr || !s.empty()){
+        while(p != nullptr){
+            s.push(p);
+            p = p->left;
+        }
+        p = s.top();
+        cout << p->item << ' ';
+        s.pop();
+        p = p->right;
+    }
+}
+
+int main()
+{
+    Node* root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->right->left = new Node(4);
+
+    printIn(root);
+    cout << endl;
+    mirrorTree(&root);
+    printIn(root);
+
+    return 0;
+}
+
+//      1              1
+//     / \            / \
+//    2   3    ->    3   2
+//       /            \
+//      4              4
