@@ -1,0 +1,39 @@
+#include <iostream>
+#include <unordered_set>
+using namespace std;
+
+bool isSubset(unordered_set<int> setA, int* b, int n)
+{
+    for(int i=0; i<n; i++){
+        if(setA.find(b[i]) == setA.end()){
+            return false;
+        }
+    }
+    return true;
+}
+
+unordered_set<int> buildHash(int* a, int n)
+{
+    unordered_set<int> hashset;
+    for(int i=0; i<n; i++){
+        hashset.insert(a[i]);
+    }
+    return hashset;
+}
+
+int main()
+{
+    int a[] = {11, 1, 13, 21, 3, 7 };
+    int b[] = {11, 3, 7, 1 };
+
+    unordered_set<int> hashset;
+    hashset = buildHash(a, sizeof(a)/sizeof(a[0]));
+
+    if(isSubset(hashset, b, sizeof(b)/sizeof(b[0]))){
+        cout << "b[] is the subset of a[]" << endl;
+    }else{
+        cout << "b[] is not the subset of a[]" << endl;
+    }
+
+    return 0;
+}
