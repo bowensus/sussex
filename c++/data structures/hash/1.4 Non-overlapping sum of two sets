@@ -1,0 +1,33 @@
+#include <iostream>
+#include <unordered_set>
+using namespace std;
+
+int sumSet(int* a, int* b, int m, int n)
+{
+    int sum = 0;
+    unordered_set<int> hashsetA(a, a+m);
+    unordered_set<int> hashsetB(b, b+n);
+
+    for(int i : hashsetA){
+        if(hashsetB.find(i) == hashsetB.end()){
+            sum += i;
+        }
+    }
+    for(int j : hashsetB){
+        if(hashsetA.find(j) == hashsetA.end()){
+            sum += j;
+        }
+    }
+
+    return sum;
+}
+
+int main()
+{
+    int a[] = {1, 5, 3, 8};
+    int b[] = {5, 4, 6, 7};
+
+    cout << sumSet(a, b, sizeof(a)/sizeof(a[0]), sizeof(b)/sizeof(b[0]));
+
+    return 0;
+}
