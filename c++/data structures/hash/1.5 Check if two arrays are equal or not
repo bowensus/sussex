@@ -1,0 +1,38 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+unordered_map<int, int> buildHashMap(int* a, int n)
+{
+    unordered_map<int, int> hashmap;
+    for(int i=0; i<n; i++){
+        if(hashmap.find(a[i]) == hashmap.end()){
+            hashmap.insert(make_pair(a[i], 1));
+        }else{
+            hashmap[a[i]] += 1;
+        }
+    }
+    return hashmap;
+}
+
+bool isSameArray(int* a, int m, int* b, int n)
+{
+    unordered_map<int, int> hashmapA = buildHashMap(a, m);
+    unordered_map<int, int> hashmapB = buildHashMap(b, n);
+
+    return hashmapA == hashmapB;
+}
+
+int main()
+{
+    int a[] = {1, 2, 5, 4, 0, 2, 1};
+    int b[] = {2, 4, 5, 0, 1 , 1, 2};
+
+    if(isSameArray(a, sizeof(a)/sizeof(a[0]), b, sizeof(b)/sizeof(b[0]))){
+        cout << "The two arrays are same." << endl;
+    }else{
+        cout << "The two arrays are not same." << endl;
+    }
+
+    return 0;
+}
