@@ -1,0 +1,40 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+unordered_map<int, int> buildHashMap(int* a, int n)
+{
+    unordered_map<int, int> hashmap;
+    for(int i=0; i<n; i++){
+        if(hashmap.find(a[i]) == hashmap.end()){
+            hashmap.insert(make_pair(a[i], 1));
+        }else{
+            hashmap[a[i]] += 1;
+        }
+    }
+    return hashmap;
+}
+
+int del(int* a, int m, int* b, int n)
+{
+    unordered_map<int, int> hashmapA = buildHashMap(a, m);
+    unordered_map<int, int> hashmapB = buildHashMap(b, n);
+
+    int cnt = 0;
+    for(const auto& pair : hashmapA){
+        if(hashmapB.find(pair.first) != hashmapB.end()){
+            cnt += 1;
+        }
+    }
+    return cnt;
+}
+
+int main()
+{
+    int a[] = { 1, 2, 3, 4};
+    int b[] = {2, 3, 4, 5, 8};
+
+    cout << del(a, sizeof(a)/sizeof(a[0]), b, sizeof(b)/sizeof(b[0]));
+
+    return 0;
+}
