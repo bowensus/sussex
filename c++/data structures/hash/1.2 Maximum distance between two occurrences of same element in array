@@ -1,0 +1,26 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+int maxDistance(int* a, int n)
+{
+    unordered_map<int, int> hashmap;
+    int maxDis = 0;
+    for(int i=0; i<n; i++){
+        if(hashmap.find(a[i]) == hashmap.end()){
+            hashmap.insert(make_pair(a[i], i));
+        }else{
+             maxDis = max(maxDis, i - hashmap[a[i]]);
+        }
+    }
+    return maxDis;
+}
+
+int main()
+{
+    int a[] = {3, 2, 1, 2, 1, 4, 5, 8, 6, 7, 4, 2};
+
+    cout << maxDistance(a, sizeof(a)/sizeof(a[0]));
+
+    return 0;
+}
