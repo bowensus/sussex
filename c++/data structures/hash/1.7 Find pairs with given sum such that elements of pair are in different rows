@@ -1,0 +1,54 @@
+#include <iostream>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+
+unordered_map<int, int> buildHashMap(int a[][4], int n)
+{
+    unordered_map<int, int> hashmap;
+    for(int i=0; i<n; i++){
+        for(int j=0; j<4; j++){
+            if(hashmap.find(a[i][j]) == hashmap.end()){
+                hashmap.insert(make_pair(a[i][j], i));
+            }
+        }
+    }
+    return hashmap;
+}
+
+void print(int a, int b)
+{
+    cout << '(' << a << ", " << b << ')' << ' ';
+}
+
+void findPair(int a[][4], int n, int x){
+    unordered_map<int, int> hashmap = buildHashMap(a, n);
+    unordered_set<int> hashset;
+
+    for(int i=0; i<n; i++){
+        for(int j=0; j<4; j++){
+            if(hashmap.find(x - a[i][j]) != hashmap.end() 
+            && hashset.find(a[i][j]) == hashset.end()){
+                if(hashmap[a[i][j]] != hashmap[x - a[i][j]]){
+                    print(a[i][j], x-a[i][j]);
+                    hashset.insert(x - a[i][j]);
+                    cout << ", ";
+                }
+            }
+        }
+    }
+}
+
+int main() {
+    int a[][4] = {
+            {1, 3, 2, 4},
+            {5, 8, 7, 6},
+            {9, 10, 13, 11},
+            {12, 0, 14, 15}
+    };
+    int x = 11;
+
+    findPair(a, sizeof(a) / sizeof(a[0]), x);
+
+    return 0;
+}
