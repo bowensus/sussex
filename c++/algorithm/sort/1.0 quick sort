@@ -1,0 +1,38 @@
+#include <iostream>
+using namespace std;
+
+void quickSort(int* a, int left, int right)
+{
+    if(left >= right) return;
+    int temp = a[left];
+    int start = left;
+    int end = right;
+
+    while(left != right){
+        while(a[right] >= temp && left != right){
+            right -= 1;
+        }
+        a[left] = a[right];
+
+        while(a[left] <= temp && left != right){
+            left += 1;
+        }
+        a[right] = a[left];
+    }
+    a[left] = temp;
+    quickSort(a, start, left);
+    quickSort(a, left+1, end);
+}
+
+int main()
+{
+    int a[] = {5, 7, 4, 6, 3, 1, 2, 9, 8};
+
+    int n = sizeof(a)/sizeof(a[0]);
+    quickSort(a, 0, n-1);
+    for(int i=0; i<n; i++){
+        cout << a[i] << ' ';
+    }
+
+    return 0;
+}
