@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int temp;
+        int n = nums.size();
+        if(n == 0) return n;
+
+        int* start = &nums[0];
+        int* p = &nums[0];
+        int* q = &nums[n-1];
+
+        while(p < q){
+            if(*p == val && *q != val){
+                temp = *p;
+                *p = *q;
+                *q = temp;
+                p++;
+                q--;
+            }else if(*p == val && *q == val){
+                while(*q == val && p < q){
+                    q--;
+                }
+            }else{
+                p++;
+            }
+        }
+
+        int cnt = p - start;
+        if(*p != val){
+            cnt += 1;
+        }
+
+        return cnt;
+    }
+};
+
+int main()
+{
+    Solution solution;
+    vector<int> nums = {3, 2, 2, 3};
+    int val = 3;
+
+    int rst = solution.removeElement(nums, val);
+    cout << rst << endl;
+
+    return 0;
+}
