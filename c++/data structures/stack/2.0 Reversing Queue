@@ -1,0 +1,29 @@
+#include <iostream>
+#include <stack>
+#include <queue>
+using namespace std;
+
+int main()
+{
+    queue<int> queue ({10, 20, 30, 40, 50, 60, 70, 80, 90, 100});
+    stack<int> stack;
+
+    while(!queue.empty()){
+        int item = queue.front();
+        stack.push(item);
+        queue.pop();
+    }
+
+    while(!stack.empty()){
+        int item = stack.top();
+        queue.push(item);
+        stack.pop();
+    }
+
+    while(!queue.empty()){
+        cout << queue.front() << ' ';
+        queue.pop();
+    }
+
+    return 0;
+}
