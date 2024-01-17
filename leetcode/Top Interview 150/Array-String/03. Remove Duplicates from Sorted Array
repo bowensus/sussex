@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+
+        int n = nums.size();
+        if(n <= 1) return n;
+
+        int* start = &nums[0];
+        int* p = &nums[0];
+        int* q = &nums[0];
+
+        // if the elements at the end are the same, 
+        // the pointer q will continue to move one more space
+        // eg {1, 2, 2, 3, 3} -> {1, 2, 3, 3, 3} q stop index3
+        // {1, 2, 2, 2, 3} -> {1, 2, 3, 2, 3} q stop index2
+        bool isPrime = false;
+        if(nums[n-1] != nums[n-2]){
+            isPrime = true;
+        }
+
+        while(p != &nums[n-1]){
+            while(*p == *q && p != &nums[n-1]){
+                p++;
+            }
+            q++;
+            *q = *p;
+        }
+
+        int cnt = q - start;
+        if(isPrime){
+            cnt += 1;
+        }
+        return cnt;
+    }
+};
+
+int main()
+{
+    Solution solution;
+    vector<int> nums = {0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
+
+    int rst = solution.removeDuplicates(nums);
+    cout << rst << endl;
+
+    for(int i=0; i<nums.size(); i++){
+        cout << nums[i] << ' ';
+    }
+    return 0;
+}
