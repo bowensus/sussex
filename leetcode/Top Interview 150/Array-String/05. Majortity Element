@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Boyer-Moore Voting Algorithm
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int* p = &nums[0];
+        int* q = &nums[0];
+        int cnt = 0;
+        int n = nums.size();
+
+        while (q != &nums[n-1] && cnt <= n / 2) {
+            if(*p == *q){
+                cnt += 1;
+                q++;
+            }else{
+                cnt -= 1;
+                q++;
+                // Candidate elements are offset
+                if(cnt == 0){
+                    p = q;
+                    cnt = 0;
+                }
+            }
+        }
+        return *p;
+    }
+};
+
+int main()
+{
+    Solution solution;
+    vector<int> nums = {6,5,5};
+
+    int rst = solution.majorityElement(nums);
+    cout << rst << endl;
+
+    return 0;
+}
