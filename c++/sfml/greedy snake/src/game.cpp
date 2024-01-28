@@ -37,7 +37,6 @@ void Game::input()
                 case Keyboard::Right:
                     if(snake.direction.x == 0.0){
                         snake.direction = {1.0, 0.0};
-
                     }
                     break;
                 default:
