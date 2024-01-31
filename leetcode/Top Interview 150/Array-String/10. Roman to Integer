@@ -1,0 +1,38 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        int num = 0;
+        unordered_map<char, int> romanNumber = {{'I', 1},
+                                                {'V', 5},
+                                                {'X', 10},
+                                                {'L', 50},
+                                                {'C', 100},
+                                                {'D', 500},
+                                                {'M', 1000}};
+
+        num += romanNumber[s[0]];
+        for(int i=1; i<s.size(); i++){
+            num += romanNumber[s[i]];
+            if(romanNumber[s[i]] > romanNumber[s[i-1]]){
+                // value of s[i-1] has plus
+                num -= romanNumber[s[i-1]] * 2;
+            }
+        }
+
+        return num;
+    }
+};
+
+int main()
+{
+    Solution solution;
+    string s = "MCMXCIV";
+    int ret = solution.romanToInt(s);
+
+    cout << ret;
+    return 0;
+}
