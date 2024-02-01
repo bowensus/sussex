@@ -1,0 +1,16 @@
+class Solution(object):
+    def strStr(self, haystack, needle):
+        n = len(needle)
+        if needle in haystack:
+            index_list = [i for i, l in enumerate(haystack) if l == needle[0]]
+            for i in index_list:
+                if needle == haystack[i:i+n]:
+                    return i
+        else:
+            return -1
+
+
+haystack = "mississippi"
+needle = "issip"
+solution = Solution()
+print(solution.strStr(haystack, needle))
