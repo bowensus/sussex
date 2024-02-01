@@ -1,9 +1,5 @@
 class Solution(object):
     def lengthOfLastWord(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
 
         words = s.split()
         index = -1
@@ -13,3 +9,9 @@ class Solution(object):
             else:
                 break
         return len(words[index])
+
+
+s = "   fly me   to   the moon  "
+solution = Solution()
+ret = solution.lengthOfLastWord(s)
+print(ret)
