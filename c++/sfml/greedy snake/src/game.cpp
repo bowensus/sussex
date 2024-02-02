@@ -14,7 +14,7 @@ void Game::input()
     Event sfmlEvent;
 
     while(window.pollEvent(sfmlEvent)){
-        if(sfmlEvent.type == Event::Closed) {
+        if(sfmlEvent.type == Event::Closed){
             window.close();
         }
         else if(sfmlEvent.type == Event::KeyPressed){
