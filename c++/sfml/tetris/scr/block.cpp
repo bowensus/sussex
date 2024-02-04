@@ -1,5 +1,7 @@
 #include "block.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 Block::Block(RenderWindow* window, Clock* gameClock) : window(window), gameClock(gameClock)
 {
