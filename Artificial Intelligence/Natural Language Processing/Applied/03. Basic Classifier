@@ -5,8 +5,8 @@ from nltk.corpus import stopwords
 import random
 import matplotlib.pyplot as plt
 
-# nltk.download("stopwords")
-# nltk.download("movie_reviews")
+nltk.download("stopwords")
+nltk.download("movie_reviews")
 
 pos_reviews = movie_reviews.fileids("pos")
 neg_reviews = movie_reviews.fileids("neg")
