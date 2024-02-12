@@ -1,0 +1,12 @@
+class Solution(object):
+    def isPalindrome(self, s):
+        s_list = list(s)
+        s_list = [w.lower() for w in s if w.isalpha() or w.isdigit()]
+        s_str = ''.join(s_list)
+        return s_str[::-1] == s_str
+
+
+s = "A man, a plan, a canal:Panama"
+solution = Solution()
+print(solution.isPalindrome(s))
+
