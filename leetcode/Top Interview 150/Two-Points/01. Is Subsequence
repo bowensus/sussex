@@ -1,0 +1,38 @@
+#include <iostream>
+using namespace std;
+
+class Solution{
+public:
+    bool isSubsequence(string s, string t){
+
+        char* p = &s[0];
+        char* q = &t[0];
+        int m = s.size();
+        int n = t.size();
+
+        while(p != &s[0] + m && q != &t[0] + n){
+            if(*p != *q){
+                q++;
+            }else{
+                p++;
+                q++;
+            }
+        }
+
+        if(p == &s[0] + m){
+            return true;
+        }else{
+            return false;
+        }
+    }
+};
+
+int main()
+{
+    string s = "abc";
+    string t = "ahbgdc";
+
+    Solution solution;
+    cout << solution.isSubsequence(s, t);
+    return 0;
+}
