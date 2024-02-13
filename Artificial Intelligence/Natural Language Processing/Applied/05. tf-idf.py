@@ -2,6 +2,7 @@ import nltk
 from nltk.corpus import gutenberg
 from nltk.corpus import stopwords
 import math
+# from sklearn.feature_extraction.text import TfidfVectorizer
 
 nltk.download('punkt')
 nltk.download('stopwords')
