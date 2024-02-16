@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int n = height.size();
+        int* p = &height[0];
+        int* q = &height[n-1];
+
+        // the shorter broad start move to centre
+        int max = (q-p) * min(*p, *q);
+        while(p != q){
+            if(*p < *q){
+                p++;
+            }else{
+                q--;
+            }
+            if(max < (q-p) * min(*p, *q)){
+                max = (q-p) * min(*p, *q);
+            }
+        }
+        return max;
+    }
+};
+
+int main()
+{
+    vector<int> heights = {1, 8, 6, 2, 5, 4, 8, 3, 7};
+    int target = 9;
+
+    Solution solution;
+    int ret = solution.maxArea(heights);
+
+    cout << ret;
+
+    return 0;
+}
