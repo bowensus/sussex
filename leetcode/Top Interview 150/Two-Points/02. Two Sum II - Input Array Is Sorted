@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution{
+public:
+    vector<int> twoSum(vector<int>& numbers, int target){
+        vector<int> index;
+
+        int n = numbers.size();
+        int* p = &numbers[0];
+        int* q = &numbers[n-1];
+
+        while(*p + *q != target){
+            if(*p + *q > target){
+                q--;
+            }else if(*p + *q < target){
+                p++;
+            }
+        }
+
+        index.push_back(p-&numbers[0]+1);
+        index.push_back(q-&numbers[0]+1);
+
+        return index;
+    }
+};
+
+int main()
+{
+    vector<int> numbers = {2, 7, 11, 15};
+    int target = 9;
+
+    Solution solution;
+    vector<int> index = solution.twoSum(numbers, target);
+    cout << index[0] << ' ' << index[1] << endl;
+
+    return 0;
+}
